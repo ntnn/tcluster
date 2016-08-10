@@ -1,0 +1,5 @@
+* use library to parse config from env, flags and file
+* sort matched hosts
+* add logging
+* add tests
+* overall better organization
