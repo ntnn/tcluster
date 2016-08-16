@@ -30,13 +30,15 @@ import (
 	"log"
 	"os"
 	"regexp"
+	"sort"
 )
 
 var conf = new(config)
 
-func collectHosts() map[string]bool {
+func collectHosts() []string {
 	hosts := map[string]bool{}
 
+	// matching input against defined hosts
 	for _, host := range conf.Hosts {
 		log.Println("Checking host", host)
 		for _, arg := range os.Args[1:] {
@@ -49,7 +51,18 @@ func collectHosts() map[string]bool {
 		}
 	}
 
-	return hosts
+	// transfer keys from created map to list
+	list := make([]string, len(hosts))
+	i := 0
+	for key, _ := range hosts {
+		list[i] = key
+		i++
+	}
+
+	// sort it
+	sort.Strings(list)
+
+	return list
 }
 
 func openHosts() {
@@ -58,9 +71,9 @@ func openHosts() {
 		window("")
 
 		i := 0
-		for host, _ := range hosts {
-			ssh(host)
-			if i < len(hosts) - 1 {
+		for j := range hosts {
+			ssh(hosts[j])
+			if i < len(hosts)-1 {
 				split()
 			}
 			i++
