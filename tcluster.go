@@ -27,9 +27,9 @@ package main
 */
 
 import (
+	"log"
 	"os"
 	"regexp"
-	"log"
 )
 
 var conf = new(config)
