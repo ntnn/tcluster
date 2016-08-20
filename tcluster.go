@@ -27,6 +27,7 @@ package main
 */
 
 import (
+	"flag"
 	"log"
 	"os"
 	"regexp"
@@ -82,9 +83,18 @@ func openHosts() {
 }
 
 func main() {
-	confpath, err := confPath()
-	if err != nil {
-		log.Panic(err)
+	var confpath string
+	flag.StringVar(&confpath, "config", "", "Specify configuration file")
+	flag.Parse()
+
+	// define err here to prevent redefinition of confpath in the
+	// inner block by using :=
+	var err error
+	if confpath == "" {
+		confpath, err = confPath()
+		if err != nil {
+			log.Panic(err)
+		}
 	}
 
 	err = conf.parseFile(confpath)
