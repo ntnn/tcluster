@@ -1,0 +1,4 @@
+layout: 1
+hosts:
+  - first.fully.qualified.host
+  - second.fully.qualified.host

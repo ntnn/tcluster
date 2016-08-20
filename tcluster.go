@@ -82,6 +82,15 @@ func openHosts() {
 }
 
 func main() {
-	conf.Parse()
+	confpath, err := confPath()
+	if err != nil {
+		log.Panic(err)
+	}
+
+	err = conf.parseFile(confpath)
+	if err != nil {
+		log.Panic(err)
+	}
+
 	openHosts()
 }
