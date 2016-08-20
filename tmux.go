@@ -28,10 +28,9 @@ package main
 
 import (
 	"os/exec"
-	"log"
 )
 
-var tmuxLayouts = []string {
+var tmuxLayouts = []string{
 	"even-horizontal",
 	"even-vertical",
 	"main-horizontal",
@@ -44,17 +43,17 @@ func cmd(cmds []string) {
 	c.Run()
 }
 
-func  window(s string) {
-	cmds := []string { "new-window" }
+func window(s string) {
+	cmds := []string{"new-window"}
 	if s != "" {
 		cmds = append(cmds, "-n", s)
 	}
 	cmd(cmds)
 }
 
-func  ssh(host string) {
-	log.Println("Opening connection to", host)
-	cmd([]string {
+func ssh(host string) {
+	log.Debug("Opening connection to", host)
+	cmd([]string{
 		"send-keys",
 		"ssh ",
 		host,
@@ -63,6 +62,6 @@ func  ssh(host string) {
 }
 
 func split() {
-	cmd([]string { "split-window" } )
-	cmd([]string { "select-layout", tmuxLayouts[conf.Layout - 1] })
+	cmd([]string{"split-window"})
+	cmd([]string{"select-layout", tmuxLayouts[conf.Layout-1]})
 }

@@ -44,12 +44,16 @@ type config struct {
 // Parse given filepath into config struct. If the path is a directory
 // all yaml files within will be recursively parsed.
 func (c *config) parseFile(path string) error {
+	log.Debugf("Parsing from path '%s'", path)
+
 	fileinfo, err := os.Stat(path)
 	if err != nil {
 		return err
 	}
 
 	if fileinfo.IsDir() {
+		log.Debugf("'%s' is a directory, parsing recursively", path)
+
 		dir, err := os.Open(path)
 		if err != nil {
 			return err
@@ -90,6 +94,7 @@ func confPath() (string, error) {
 	if path != "" {
 		_, err := os.Stat(path)
 		if err == nil {
+			log.Debugf("Configuration path: %s", path)
 			return path, nil
 		}
 	}
@@ -102,13 +107,17 @@ func confPath() (string, error) {
 
 	for i := range paths {
 		path := os.ExpandEnv(paths[i])
+		log.Debugf("Trying path '%s'", path)
+
 		if path != "" {
 			_, err := os.Stat(path)
 			if err == nil {
+				log.Debugf("Configuration path: %s", path)
 				return path, nil
 			}
 		}
 	}
 
+	log.Debug("No configuration file found")
 	return "", ErrNoValidConfigPath
 }

@@ -28,27 +28,34 @@ package main
 
 import (
 	"flag"
-	"log"
 	"os"
 	"regexp"
 	"sort"
+
+	"github.com/divoxx/llog"
 )
 
-var conf = new(config)
+var (
+	conf = new(config)
+	log  = llog.New(os.Stdout, llog.INFO)
+)
 
 func collectHosts(patterns []string) []string {
 	hosts := map[string]bool{}
 
 	// matching input against defined hosts
 	for _, host := range conf.Hosts {
-		log.Println("Checking host", host)
+		log.Debug("Checking host", host)
+
 		for _, arg := range patterns {
-			log.Println("\tagainst pattern", arg)
+			log.Debug("\tagainst pattern", arg)
+
 			isMatch, _ := regexp.MatchString(arg, host)
 			if isMatch {
-				log.Println("\t\tmatched")
+				log.Debug("\t\tmatched")
 				hosts[host] = true
 			}
+
 		}
 	}
 
@@ -84,7 +91,13 @@ func openHosts(hosts []string) {
 func main() {
 	var confpath string
 	flag.StringVar(&confpath, "config", "", "Specify configuration file")
+
+	debug := flag.Bool("debug", false, "Enable debug output")
 	flag.Parse()
+
+	if *debug {
+		log.SetLevel(llog.DEBUG)
+	}
 
 	// define err here to prevent redefinition of confpath in the
 	// inner block by using :=
@@ -92,13 +105,13 @@ func main() {
 	if confpath == "" {
 		confpath, err = confPath()
 		if err != nil {
-			log.Panic(err)
+			log.Errorf("Error getting confpath, got '%s': %v", confpath, err)
 		}
 	}
 
 	err = conf.parseFile(confpath)
 	if err != nil {
-		log.Panic(err)
+		log.Errorf("Failed to parse configuration file(s): %v", err)
 	}
 
 	openHosts(collectHosts(flag.Args()))
