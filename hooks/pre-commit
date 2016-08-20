@@ -9,10 +9,10 @@ make test || {
 
 
 files=$(git diff --cached --name-only --diff-filter=ACM | egrep -i '*.go$')
-test -z "$file" && exit
+test -z "$files" && exit
 
 unformatted=$(goimports -l $files)
-text -z "$unformatted" && exit
+test -z "$unformatted" && exit
 
 echo "Unformatted files found, printing them to stdout:" >&2
 i=0
