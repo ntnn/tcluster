@@ -79,6 +79,14 @@ func (c *config) parseFile(path string) error {
 		return err
 	}
 
+	// TODO expand host with globs or similar
+	//   host{01..05}
+	// to
+	//   host01
+	//   host02
+	//   host03
+	//   host04
+	//   host05
 	return yaml.Unmarshal(file, c)
 }
 
