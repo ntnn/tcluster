@@ -36,13 +36,13 @@ import (
 
 var conf = new(config)
 
-func collectHosts() []string {
+func collectHosts(patterns []string) []string {
 	hosts := map[string]bool{}
 
 	// matching input against defined hosts
 	for _, host := range conf.Hosts {
 		log.Println("Checking host", host)
-		for _, arg := range os.Args[1:] {
+		for _, arg := range patterns {
 			log.Println("\tagainst pattern", arg)
 			isMatch, _ := regexp.MatchString(arg, host)
 			if isMatch {
@@ -66,8 +66,7 @@ func collectHosts() []string {
 	return list
 }
 
-func openHosts() {
-	hosts := collectHosts()
+func openHosts(hosts []string) {
 	if len(hosts) > 0 {
 		window("")
 
@@ -102,5 +101,5 @@ func main() {
 		log.Panic(err)
 	}
 
-	openHosts()
+	openHosts(collectHosts(flag.Args()))
 }
