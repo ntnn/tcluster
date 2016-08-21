@@ -1,0 +1,33 @@
+# Layout to use, numbers refer to the layout name in the order in which
+# they appear in the man page.
+# User defined layouts are also possible, however these fail when the
+# number of panes in a layout doesn't fit to the number of panes in the
+# current window.
+#
+# The default is layout 5
+layout: 1
+
+# User defined layouts, the layout string can be obtained from `tmux
+# list-windows`.
+# The key ('personal_layout' in this example) can contain spaces, but
+# tcluster won't recognize layout keys with spaces. E.g.:
+#   tcluster l:personal layout host1 host2
+# will fail, because tcluster doesn't know about a layout 'personal'.
+#
+# The defaults are:
+#   1 - even-horizontal
+#   2 - even-vertical
+#   3 - main-horizontal
+#   4 - main-vertical
+#   5 - tiled
+layouts:
+  personal_layout: 'bb62,159x48,0,0{79x48,0,0,79x48,80,0}'
+
+# List of hosts to match expressions against. tcluster does not expand,
+# lookup or otherwise fiddle with the hostnames - they're only passed to
+# ssh.
+#
+# There is no default.
+hosts:
+  - host1
+  - host2
