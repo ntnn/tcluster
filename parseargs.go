@@ -39,7 +39,7 @@ func findXInArray(word string, splice []string) []int {
 }
 
 // splitArgs splits the passed splice on the keyword "then" and returns
-// a 2d splice containing  inbetween
+// a 2d splice containing  in between
 func splitArgs(args []string) [][]string {
 	thens := findXInArray("then", args)
 	if len(thens) == 0 {
@@ -88,7 +88,7 @@ func (c *config) parseArgs(args []string) ([]string, error) {
 			case "l", "layout":
 				c.Layout = arg
 			default:
-				log.Errorf("Parsed unkown config modified %q with value %q", flag, arg)
+				log.Errorf("Parsed unknown config modified %q with value %q", flag, arg)
 			}
 		} else {
 			expressions = append(expressions, args[i])
