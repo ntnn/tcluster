@@ -30,14 +30,6 @@ import (
 	"os/exec"
 )
 
-var tmuxLayouts = []string{
-	"even-horizontal",
-	"even-vertical",
-	"main-horizontal",
-	"main-vertical",
-	"tiled",
-}
-
 func cmd(cmds []string) {
 	c := exec.Command("tmux", cmds...)
 	c.Run()
@@ -63,5 +55,5 @@ func ssh(host string) {
 
 func split() {
 	cmd([]string{"split-window"})
-	cmd([]string{"select-layout", tmuxLayouts[conf.Layout-1]})
+	cmd([]string{"select-layout", layout})
 }

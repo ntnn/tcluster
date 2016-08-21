@@ -30,6 +30,51 @@ import (
 	"testing"
 )
 
+func TestNewConfig(t *testing.T) {
+	cases := map[string]struct {
+		input, expected config
+	}{
+		"No modification": {
+			input: config{},
+			expected: config{
+				Layout: "5",
+				Layouts: map[string]string{
+					"1": "even-horizontal",
+					"2": "even-vertical",
+					"3": "main-horizontal",
+					"4": "main-vertical",
+					"5": "tiled",
+				},
+				Hosts: make([]string, 0),
+			},
+		},
+		"Layout changed": {
+			input: config{
+				Layout: "2",
+			},
+			expected: config{
+				Layout: "2",
+				Layouts: map[string]string{
+					"1": "even-horizontal",
+					"2": "even-vertical",
+					"3": "main-horizontal",
+					"4": "main-vertical",
+					"5": "tiled",
+				},
+				Hosts: make([]string, 0),
+			},
+		},
+	}
+
+	for title, test := range cases {
+		result := newConfig(test.input)
+
+		if !reflect.DeepEqual(test.expected, result) {
+			t.Errorf("%s: Expected %q, got %q", title, test.expected, result)
+		}
+	}
+}
+
 func TestParseFile(t *testing.T) {
 	cases := map[string]struct {
 		path        string
@@ -38,39 +83,39 @@ func TestParseFile(t *testing.T) {
 	}{
 		"Simple": {
 			path: "test_data/simple.yaml",
-			expected: config{
-				Layout: 1,
+			expected: newConfig(config{
+				Layout: "1",
 				Hosts:  []string{"first.fully.qualified.host", "second.fully.qualified.host"},
-			},
+			}),
 			expectedErr: nil,
 		},
 		"One in dir": {
 			path: "test_data/dir_single",
-			expected: config{
-				Layout: 1,
+			expected: newConfig(config{
+				Layout: "1",
 				Hosts: []string{
 					"first.fully.qualified.host",
 					"second.fully.qualified.host",
 					"host-without-domain",
 				},
-			},
+			}),
 			expectedErr: nil,
 		},
 		"Multiple in dir": {
 			path: "test_data/dir_multiple",
-			expected: config{
-				Layout: 1,
+			expected: newConfig(config{
+				Layout: "1",
 				Hosts: []string{
 					"first.fully.qualified.host",
 					"host-without-domain",
 				},
-			},
+			}),
 			expectedErr: nil,
 		},
 	}
 
 	for title, test := range cases {
-		result := config{}
+		result := newConfig(config{})
 		err := result.parseFile(test.path)
 		if err != test.expectedErr {
 			t.Errorf("%s: Expected error '%v', got '%v'", title, test.expectedErr, err)
@@ -166,5 +211,48 @@ func testConfPathHelper(t *testing.T, title string, test confPathCase) {
 
 	if resultErr != test.extectedErr {
 		t.Errorf("%s: Expected error '%v' does not match error '%s'", title, test.extectedErr, resultErr)
+	}
+}
+
+func TestParseArgs(t *testing.T) {
+	cases := map[string]struct {
+		args        []string
+		expected    config
+		expectedErr error
+	}{
+		"None": {
+			args: []string{},
+			expected: newConfig(config{
+				Layout: "5",
+			}),
+			expectedErr: nil,
+		},
+		"Layout 1 short": {
+			args: []string{"l:1"},
+			expected: newConfig(config{
+				Layout: "1",
+			}),
+			expectedErr: nil,
+		},
+		"Layout 1 long": {
+			args: []string{"layout:1"},
+			expected: newConfig(config{
+				Layout: "1",
+			}),
+			expectedErr: nil,
+		},
+	}
+
+	for title, test := range cases {
+		testconf := newConfig(config{})
+
+		resultErr := testconf.parseArgs(test.args)
+		if resultErr != test.expectedErr {
+			t.Errorf("%s: Expected error '%v', got '%v'", title, test.expectedErr, resultErr)
+		}
+
+		if !reflect.DeepEqual(test.expected, testconf) {
+			t.Errorf("%s: Expected result %q, got %q", title, test.expected, testconf)
+		}
 	}
 }

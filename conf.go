@@ -41,8 +41,38 @@ var (
 )
 
 type config struct {
-	Layout int
-	Hosts  []string
+	Layout  string
+	Layouts map[string]string
+	Hosts   []string
+}
+
+func newConfig(init config) config {
+	cfg := config{
+		Layout: "5",
+		Layouts: map[string]string{
+			"1": "even-horizontal",
+			"2": "even-vertical",
+			"3": "main-horizontal",
+			"4": "main-vertical",
+			"5": "tiled",
+		},
+		Hosts: []string{},
+	}
+
+	if init.Layout != "" {
+		cfg.Layout = init.Layout
+	}
+
+	// TODO ugly
+	for i := range init.Hosts {
+		cfg.Hosts = append(cfg.Hosts, init.Hosts[i])
+	}
+
+	for key := range init.Layouts {
+		cfg.Layouts[key] = init.Layouts[key]
+	}
+
+	return cfg
 }
 
 // Parse given filepath into config struct. If the path is a directory

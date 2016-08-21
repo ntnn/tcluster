@@ -81,7 +81,7 @@ func openHosts(hosts []string) {
 		for j := range hosts {
 			ssh(hosts[j])
 			if i < len(hosts)-1 {
-				split()
+				split(conf.Layouts[conf.Layout])
 			}
 			i++
 		}
