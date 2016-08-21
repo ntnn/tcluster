@@ -1,8 +1,10 @@
 TARGET ?= ./...
 COVERAGEFILE ?= $(TMPDIR)/coverage.out
+deps := github.com/fzipp/gocyclo github.com/gordonklaus/ineffassign github.com/client9/misspell/cmd/misspell
 
 bootstrap:
-	go get -t -v $(TARGET)
+	go get -t $(TARGET)
+	go get -u $(deps)
 
 generate:
 	go generate
