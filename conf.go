@@ -34,7 +34,11 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var ErrNoValidConfigPath = errors.New("No configuration path found.")
+var (
+	// ErrNoValidConfigPath is returned by confPath when none of the
+	// default locations are acessible.
+	ErrNoValidConfigPath = errors.New("No configuration path found.")
+)
 
 type config struct {
 	Layout int
