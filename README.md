@@ -1,4 +1,6 @@
 # tcluster
+[![Build Status](https://travis-ci.org/ntnn/tcluster.svg?branch=master)](https://travis-ci.org/ntnn/tcluster) [![Go Report Card](https://goreportcard.com/badge/github.com/ntnn/tcluster)](https://goreportcard.com/report/github.com/ntnn/tcluster)
+
 tcluster opens tmux panes with connections to remote hosts, similar to
 clusterssh. It does not handle sending input to them - tmux supports
 that by itself, see the [section tmux](#tmux).
