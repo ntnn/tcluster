@@ -22,31 +22,14 @@ to full-partial-host.full.domain and full-partial-host-02.full.domain.
 Each argument is interpreted as a regular expression by golangs
 [regexp](https://golang.org/pkg/regexp/) package.
 
-For configuration examples see the `test_data` directory.
+For configuration examples see the `test_data` directory and the
+annotated `example_conf.yaml`.
 
 # Planned
-Planned are two keywords to modify tclusters behaviour, `then` and `-`
-as well as ansible-like host-expansion with tags and supporting
-ansible inventories.
-
-## then
-`then` to support opening multiple windows at once with different
-regexes.
-
-Example:
-```sh
-$ cat ~/.tcluster.yaml
-hosts:
-  - full-partial-host.full.domain
-  - full-partial-host-02.full.domain
-  - another-host.full.domain
-  - hostname-only
-$ tcluster full-part then full.domain
-```
-
-To open a window with connections to full-partial-host{,02}.full.domain
-and another window with connections to
-full-partial-host{,02}.full.domain and another-host.full.domain
+- `-` keyword
+- shell-like expansion of defined hosts in configuration files
+- host-tags
+- ansible inventories
 
 ## -
 `-` to specify that the next expression should not match the
