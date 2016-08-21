@@ -53,7 +53,7 @@ func ssh(host string) {
 	})
 }
 
-func split() {
+func split(layout string) {
 	cmd([]string{"split-window"})
 	cmd([]string{"select-layout", layout})
 }

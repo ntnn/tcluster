@@ -1,5 +1,7 @@
 package main
 
+import "strings"
+
 /*
 The MIT License (MIT)
 Copyright (c) 2016 Nelo-T. wallus <nelo@wallus.de>
@@ -65,4 +67,33 @@ func splitArgs(args []string) [][]string {
 	}
 
 	return splits
+}
+
+// parseArgs takes a list of strings (a block of expressions) and parses
+// config modifiers into the configuration
+// Everything with a colon in it is considered to be a config modifier,
+// unrecognized modifiers are logged, but the method continues.
+// Everything not considered a config modifier is considered an
+// expression and returned.
+// TODO title modifier to set window name
+func (c *config) parseArgs(args []string) ([]string, error) {
+	var expressions []string
+
+	for i := range args {
+		split := strings.Split(args[i], ":")
+		if len(split) > 1 {
+			flag, arg := split[0], split[1]
+
+			switch flag {
+			case "l", "layout":
+				c.Layout = arg
+			default:
+				log.Errorf("Parsed unkown config modified %q with value %q", flag, arg)
+			}
+		} else {
+			expressions = append(expressions, args[i])
+		}
+	}
+
+	return expressions, nil
 }
