@@ -54,9 +54,12 @@ func openHosts(hosts []string) {
 }
 
 func main() {
-	var confpath string
-	flag.StringVar(&confpath, "config", "", "Specify configuration file")
+	var (
+		confpath string
+		err      error
+	)
 
+	flag.StringVar(&confpath, "config", "", "Specify configuration file")
 	debug := flag.Bool("debug", false, "Enable debug output")
 	flag.Parse()
 
@@ -64,9 +67,6 @@ func main() {
 		log.SetLevel(llog.DEBUG)
 	}
 
-	// define err here to prevent redefinition of confpath in the
-	// inner block by using :=
-	var err error
 	if confpath == "" {
 		confpath, err = confPath()
 		if err != nil {
@@ -79,5 +79,8 @@ func main() {
 		log.Errorf("Failed to parse configuration file(s): %v", err)
 	}
 
-	openHosts(conf.matchHosts(flag.Args()))
+	blocks := splitArgs(flag.Args())
+	for i := range blocks {
+		openHosts(conf.matchHosts(blocks[i]))
+	}
 }
