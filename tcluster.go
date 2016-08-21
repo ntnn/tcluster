@@ -62,7 +62,7 @@ func collectHosts(patterns []string) []string {
 	// transfer keys from created map to list
 	list := make([]string, len(hosts))
 	i := 0
-	for key, _ := range hosts {
+	for key := range hosts {
 		list[i] = key
 		i++
 	}
