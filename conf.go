@@ -36,7 +36,7 @@ import (
 
 var (
 	// ErrNoValidConfigPath is returned by confPath when none of the
-	// default locations are acessible.
+	// default locations are accessible.
 	ErrNoValidConfigPath = errors.New("No configuration path found.")
 )
 
