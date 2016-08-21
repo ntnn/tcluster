@@ -1,4 +1,10 @@
 * use library to parse config from env, flags and file
-* add logging
 * add tests
 * overall better organization
+
+* Maybe adding support for adding layouts via config
+  tmux supports passing a string which defines the dimensions of each pane
+  in a window in a json-like structure.
+  However these can only be used for exactly the number of panes used
+  when generating this layout, so it is not exactly useful with variadic
+  inpus.
