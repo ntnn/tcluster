@@ -1,9 +1,7 @@
 TARGET ?= ./...
-deps := golang.org/x/tools/cmd/goimports
 
 bootstrap:
 	go get -t -v $(TARGET)
-	go get -u -v $(deps)
 
 generate:
 	go generate
