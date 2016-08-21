@@ -1,6 +1,6 @@
 # tcluster
 tcluster opens tmux panes with connections to remote hosts, similar to
-clusterssh. It does not handly sending input to them - tmux supports
+clusterssh. It does not handle sending input to them - tmux supports
 that by itself, see the [section tmux](#tmux).
 
 Example:
