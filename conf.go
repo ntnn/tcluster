@@ -30,6 +30,8 @@ import (
 	"errors"
 	"io/ioutil"
 	"os"
+	"regexp"
+	"sort"
 
 	"gopkg.in/yaml.v2"
 )
@@ -122,6 +124,39 @@ func (c *config) parseFile(path string) error {
 	//   host04
 	//   host05
 	return yaml.Unmarshal(file, c)
+}
+
+func (c *config) matchHosts(expressions []string) []string {
+	hosts := map[string]bool{}
+
+	// matching input against defined hosts
+	for _, host := range c.Hosts {
+		log.Debug("Checking host", host)
+
+		for _, expr := range expressions {
+			log.Debug("\tagainst expression", expr)
+
+			isMatch, _ := regexp.MatchString(expr, host)
+			if isMatch {
+				log.Debug("\t\tmatched")
+				hosts[host] = true
+			}
+
+		}
+	}
+
+	// transfer keys from created map to list
+	list := make([]string, len(hosts))
+	i := 0
+	for key := range hosts {
+		list[i] = key
+		i++
+	}
+
+	// sort it
+	sort.Strings(list)
+
+	return list
 }
 
 // Retrieve a valid configuration path:

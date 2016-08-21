@@ -137,6 +137,58 @@ func TestParseFile(t *testing.T) {
 	}
 }
 
+func TestMatchHosts(t *testing.T) {
+	conf := newConfig(config{
+		Hosts: []string{
+			"a-fully.qualified.host",
+			"another-fully.qualified.host",
+			"enumerated",
+			"enumerated-01",
+			"enumerated-02",
+			"enumerated-03",
+			"enumerated-04",
+			"enumerated-05",
+			"single-host",
+		},
+	})
+
+	cases := map[string]struct {
+		expressions, expected []string
+	}{
+		"All": {
+			expressions: []string{".*"},
+			expected:    conf.Hosts,
+		},
+		"qualified": {
+			expressions: []string{".qualified.host"},
+			expected: []string{
+				"a-fully.qualified.host",
+				"another-fully.qualified.host",
+			},
+		},
+		"qualified and enumerated": {
+			expressions: []string{".qualified.host", "enumerated-\\d\\d"},
+			expected: []string{
+				"a-fully.qualified.host",
+				"another-fully.qualified.host",
+				"enumerated-01",
+				"enumerated-02",
+				"enumerated-03",
+				"enumerated-04",
+				"enumerated-05",
+			},
+		},
+	}
+
+	for title, test := range cases {
+		result := conf.matchHosts(test.expressions)
+
+		if !reflect.DeepEqual(test.expected, result) {
+			t.Errorf("%s: Expected %q, got %q", title, test.expected, result)
+		}
+	}
+}
+
 type confPathCase struct {
 	env         string
 	dirs        []string

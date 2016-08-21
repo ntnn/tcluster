@@ -29,8 +29,6 @@ package main
 import (
 	"flag"
 	"os"
-	"regexp"
-	"sort"
 
 	"github.com/divoxx/llog"
 )
@@ -39,39 +37,6 @@ var (
 	conf = new(config)
 	log  = llog.New(os.Stdout, llog.INFO)
 )
-
-func collectHosts(patterns []string) []string {
-	hosts := map[string]bool{}
-
-	// matching input against defined hosts
-	for _, host := range conf.Hosts {
-		log.Debug("Checking host", host)
-
-		for _, arg := range patterns {
-			log.Debug("\tagainst pattern", arg)
-
-			isMatch, _ := regexp.MatchString(arg, host)
-			if isMatch {
-				log.Debug("\t\tmatched")
-				hosts[host] = true
-			}
-
-		}
-	}
-
-	// transfer keys from created map to list
-	list := make([]string, len(hosts))
-	i := 0
-	for key := range hosts {
-		list[i] = key
-		i++
-	}
-
-	// sort it
-	sort.Strings(list)
-
-	return list
-}
 
 func openHosts(hosts []string) {
 	if len(hosts) > 0 {
@@ -114,5 +79,5 @@ func main() {
 		log.Errorf("Failed to parse configuration file(s): %v", err)
 	}
 
-	openHosts(collectHosts(flag.Args()))
+	openHosts(conf.matchHosts(flag.Args()))
 }
