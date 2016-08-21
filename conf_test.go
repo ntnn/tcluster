@@ -112,6 +112,16 @@ func TestParseFile(t *testing.T) {
 			}),
 			expectedErr: nil,
 		},
+		"Defined layouts, overwriting default": {
+			path: "test_data/layouts.yaml",
+			expected: newConfig(config{
+				Layouts: map[string]string{
+					"one": "layout-string",
+					"2":   "tiled",
+				},
+			}),
+			expectedErr: nil,
+		},
 	}
 
 	for title, test := range cases {
