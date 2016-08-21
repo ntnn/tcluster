@@ -23,7 +23,9 @@ Each argument is interpreted as a regular expression by golangs
 For configuration examples see the `test_data` directory.
 
 # Planned
-Planned are two keywords to modify tclusters behaviour:
+Planned are two keywords to modify tclusters behaviour, `then` and `-`
+as well as ansible-like host-expansion with tags and supporting
+ansible inventories.
 
 ## then
 `then` to support opening multiple windows at once with different
