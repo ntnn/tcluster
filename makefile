@@ -21,5 +21,10 @@ coverage: generate
 shared: generate
 	go install -buildmode=shared -linkshared $(TARGET)
 
+pretty:
+	@gocyclo -over 10 . 1>&2
+	@ineffassign . 1>&2
+	@misspell . 1>&2
+
 clean:
 	go clean -ix $(TARGET)
