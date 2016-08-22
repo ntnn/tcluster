@@ -34,7 +34,7 @@ import (
 )
 
 var (
-	conf = new(config)
+	conf = newConfig(config{})
 	log  = llog.New(os.Stdout, llog.INFO)
 )
 
