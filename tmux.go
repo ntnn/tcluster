@@ -30,9 +30,11 @@ import (
 	"os/exec"
 )
 
-func cmd(cmds []string) {
+func cmd(cmds []string) error {
 	c := exec.Command("tmux", cmds...)
-	c.Run()
+	log.Debugf("Executing command %q", cmds)
+	return c.Run()
+
 }
 
 func window(s string) {
@@ -40,20 +42,35 @@ func window(s string) {
 	if s != "" {
 		cmds = append(cmds, "-n", s)
 	}
-	cmd(cmds)
+	err := cmd(cmds)
+
+	if err != nil {
+		log.Errorf("Failed to open new window: %v", err)
+	}
 }
 
 func ssh(host string) {
 	log.Debug("Opening connection to", host)
-	cmd([]string{
+	err := cmd([]string{
 		"send-keys",
 		"ssh ",
 		host,
 		"\n",
 	})
+
+	if err != nil {
+		log.Errorf("Failed to send command to open ssh connection to %q: %v", host, err)
+	}
 }
 
 func split(layout string) {
-	cmd([]string{"split-window"})
-	cmd([]string{"select-layout", layout})
+	err := cmd([]string{"split-window"})
+	if err != nil {
+		log.Errorf("Failed to split a pane: %v", err)
+	}
+
+	err = cmd([]string{"select-layout", layout})
+	if err != nil {
+		log.Errorf("Failed to apply layout: %v", err)
+	}
 }
