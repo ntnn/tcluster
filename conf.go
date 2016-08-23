@@ -46,6 +46,7 @@ type config struct {
 	Layout  string
 	Layouts map[string]string
 	Hosts   []string
+	Title   string
 }
 
 func newConfig(init config) config {
@@ -59,10 +60,15 @@ func newConfig(init config) config {
 			"5": "tiled",
 		},
 		Hosts: []string{},
+		Title: "",
 	}
 
 	if init.Layout != "" {
 		cfg.Layout = init.Layout
+	}
+
+	if init.Title != "" {
+		cfg.Title = init.Title
 	}
 
 	// TODO ugly

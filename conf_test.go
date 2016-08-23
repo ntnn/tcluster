@@ -46,6 +46,7 @@ func TestNewConfig(t *testing.T) {
 					"5": "tiled",
 				},
 				Hosts: make([]string, 0),
+				Title: "",
 			},
 		},
 		"Layout changed": {
@@ -62,6 +63,7 @@ func TestNewConfig(t *testing.T) {
 					"5": "tiled",
 				},
 				Hosts: make([]string, 0),
+				Title: "",
 			},
 		},
 	}
@@ -86,6 +88,7 @@ func TestParseFile(t *testing.T) {
 			expected: newConfig(config{
 				Layout: "1",
 				Hosts:  []string{"first.fully.qualified.host", "second.fully.qualified.host"},
+				Title:  "test",
 			}),
 			expectedErr: nil,
 		},

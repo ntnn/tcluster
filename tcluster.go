@@ -27,6 +27,7 @@ package main
 */
 
 import (
+	"errors"
 	"flag"
 	"os"
 
@@ -38,19 +39,25 @@ var (
 	log  = llog.New(os.Stdout, llog.INFO)
 )
 
-func openHosts(hosts []string) {
-	if len(hosts) > 0 {
-		window("")
+var (
+	ErrEmptyHostList = errors.New("Empty host list passed")
+)
 
-		i := 0
-		for j := range hosts {
-			ssh(hosts[j])
-			if i < len(hosts)-1 {
-				split(conf.Layouts[conf.Layout])
-			}
-			i++
+func openHosts(title string, hosts []string) error {
+	if len(hosts) == 0 {
+		return ErrEmptyHostList
+	}
+
+	window(title)
+
+	for i := range hosts {
+		ssh(hosts[i])
+		if i < len(hosts)-1 {
+			split(conf.Layouts[conf.Layout])
 		}
 	}
+
+	return nil
 }
 
 func main() {
@@ -79,8 +86,18 @@ func main() {
 		log.Errorf("Failed to parse configuration file(s): %v", err)
 	}
 
-	blocks := splitArgs(flag.Args())
-	for i := range blocks {
-		openHosts(conf.matchHosts(blocks[i]))
+	args := splitArgs(flag.Args())
+	for i := range args {
+		blockconf := newConfig(conf)
+		expressions, err := blockconf.parseArgs(args[i])
+		if err != nil {
+			log.Errorf("Got error parsing arguments for a block, not continuing this block: %v", err)
+			continue
+		}
+
+		err = openHosts(blockconf.Title, expressions)
+		if err != nil {
+			log.Errorf("Got error opening connections to hosts: %v", err)
+		}
 	}
 }

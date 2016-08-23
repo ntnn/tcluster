@@ -75,7 +75,6 @@ func splitArgs(args []string) [][]string {
 // unrecognized modifiers are logged, but the method continues.
 // Everything not considered a config modifier is considered an
 // expression and returned.
-// TODO title modifier to set window name
 func (c *config) parseArgs(args []string) ([]string, error) {
 	var expressions []string
 
@@ -87,6 +86,8 @@ func (c *config) parseArgs(args []string) ([]string, error) {
 			switch flag {
 			case "l", "layout":
 				c.Layout = arg
+			case "t", "title":
+				c.Title = arg
 			default:
 				log.Errorf("Parsed unknown config modified %q with value %q", flag, arg)
 			}

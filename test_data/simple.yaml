@@ -1,4 +1,5 @@
 layout: 1
+title: 'test'
 hosts:
   - first.fully.qualified.host
   - second.fully.qualified.host

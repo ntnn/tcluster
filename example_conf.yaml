@@ -23,6 +23,18 @@ layout: 1
 layouts:
   personal_layout: 'bb62,159x48,0,0{79x48,0,0,79x48,80,0}'
 
+# User defined title, names the opened window explicitly.
+#
+# Titles can be defined on the commandline per-block, e.g.
+#   tcluster t:one host1 host2 then title:two host{1..5}
+# Which does the same as in the first example, just that the opened
+# windows have the default layout and are named 'one' and 'two'
+# respectively.
+#
+# The default is empty (""), and will not assign a name to the window.
+# In that case tmux will take over the naming.
+title: 'custom title'
+
 # List of hosts to match expressions against. tcluster does not expand,
 # lookup or otherwise fiddle with the hostnames - they're only passed to
 # ssh.
