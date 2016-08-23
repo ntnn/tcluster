@@ -95,7 +95,7 @@ func main() {
 			continue
 		}
 
-		err = openHosts(blockconf.Title, expressions)
+		err = openHosts(blockconf.Title, blockconf.matchHosts(expressions))
 		if err != nil {
 			log.Errorf("Got error opening connections to hosts: %v", err)
 		}
