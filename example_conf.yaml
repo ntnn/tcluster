@@ -4,6 +4,14 @@
 # number of panes in a layout doesn't fit to the number of panes in the
 # current window.
 #
+# Layouts can be defined on the commandline per-block, e.g.
+#   tcluster l:2 host1 host2 then layout:5 host{1..5}
+# Which would open one window with the even-vertical layout with all
+# hosts matching the expressions 'host1' and 'host2', and another with
+# the tiled layout with all hosts matching the expressions 'host1',
+# 'host2', 'host3', 'host4' and 'host5' (given you're using a shell
+# which supports the {x..y} expansion).
+#
 # The default is layout 5
 layout: 1
 
