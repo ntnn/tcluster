@@ -181,6 +181,12 @@ func TestMatchHosts(t *testing.T) {
 				"enumerated-05",
 			},
 		},
+		"group then minus": {
+			expressions: []string{"qualified.host", "-another"},
+			expected: []string{
+				"a-fully.qualified.host",
+			},
+		},
 	}
 
 	for title, test := range cases {

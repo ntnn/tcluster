@@ -1,3 +1,9 @@
+Version 0.1.1, 2016-09-19
+=========================
+Second version
+
+#. tcluster now understands the minus (-) keyword
+
 Version 0.1.0, 2016-08-21
 =========================
 Initial version

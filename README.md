@@ -26,25 +26,9 @@ For configuration examples see the `test_data` directory and the
 annotated `example_conf.yaml`.
 
 # Planned
-- `-` keyword
 - shell-like expansion of defined hosts in configuration files
 - host-tags
 - ansible inventories
-
-## -
-`-` to specify that the next expression should not match the
-specified hosts.
-```sh
-$ cat ~/.tcluster.yaml
-hosts:
-  - full-partial-host.full.domain
-  - full-partial-host-02.full.domain
-  - another-host.full.domain
-  - hostname-only
-$ tcluster full.domain - 02
-```
-Would open a new window with connections to
-full-partial-host.full.domain and another-host.full.domain.
 
 # tmux
 Tmux supports inputting into multiple panes at once through the

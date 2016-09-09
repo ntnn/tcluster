@@ -142,6 +142,16 @@ func (c *config) matchHosts(expressions []string) []string {
 		for _, expr := range expressions {
 			log.Debug("\tagainst expression", expr)
 
+			// checking for a leading minus at the beginning
+			if expr[0] == '-' {
+				isMatch, _ := regexp.MatchString(expr[1:], host)
+				if isMatch {
+					log.Debugf("Hosts '%s' matched against '%s', removing from host list", host, expr)
+					hosts[host] = false
+				}
+				continue
+			}
+
 			isMatch, _ := regexp.MatchString(expr, host)
 			if isMatch {
 				log.Debug("\t\tmatched")
@@ -152,11 +162,11 @@ func (c *config) matchHosts(expressions []string) []string {
 	}
 
 	// transfer keys from created map to list
-	list := make([]string, len(hosts))
-	i := 0
-	for key := range hosts {
-		list[i] = key
-		i++
+	list := make([]string, 0)
+	for key, value := range hosts {
+		if value {
+			list = append(list, key)
+		}
 	}
 
 	// sort it
