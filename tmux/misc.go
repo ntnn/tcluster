@@ -7,8 +7,7 @@ import (
 )
 
 func cmd(cmds []string) error {
-	c := exec.Command("tmux", cmds...)
-	return c.Run()
+	return exec.Command("tmux", cmds...).Run()
 }
 
 // Function SendKeys executes tmux send-keys and ends with a newline
