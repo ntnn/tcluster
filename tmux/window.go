@@ -2,9 +2,9 @@ package tmux
 
 // Function window creates a new window with the title s.
 func NewWindow(s string) error {
-	cmds := []string{"new-window"}
+	args := []string{"new-window"}
 	if s != "" {
-		cmds = append(cmds, "-n", s)
+		args = append(args, "-n", s)
 	}
 
 	return cmd(args)
