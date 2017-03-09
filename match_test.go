@@ -22,6 +22,11 @@ func TestExpressionMatchesHost(t *testing.T) {
 			host:   "this-is-not-a-host",
 			expect: false,
 		},
+		"x matches x.domain": {
+			expr:   "some-host",
+			host:   "some-host.domain",
+			expect: true,
+		},
 	}
 
 	for title, test := range cases {
@@ -30,4 +35,27 @@ func TestExpressionMatchesHost(t *testing.T) {
 			t.Errorf("%s: %q does not match %q", title, result, test.expect)
 		}
 	}
+}
+
+func TestHostsMatchingExpression(t *testing.T) {
+	cases := map[string]struct {
+		expr          string
+		hosts, expect []string
+	}{
+		"all match": {
+			expr: "common",
+			hosts: []string{
+				"node-common-01",
+				"node-uncommon-02.domain",
+				"another-common-node",
+				"common-node-03",
+				"node-not-so-common",
+				"node-not-so-common.domain",
+			},
+		},
+	}
+
+	// for title, test := range cases {
+	// 	result :=
+	// }
 }

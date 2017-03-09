@@ -10,7 +10,7 @@ var RootCmd = &cobra.Command{
 	},
 }
 
-func init() {
-	cobra.OnInitialize(initConfig)
-	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "config file (defaults to $HOME/.tcluster.yaml)")
-}
+// func init() {
+// 	cobra.OnInitialize(initConfig)
+// 	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "config file (defaults to $HOME/.tcluster.yaml)")
+// }

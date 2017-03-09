@@ -26,7 +26,10 @@ var sshCmd = &cobra.Command{
 		tmux.NewWindow(title)
 
 		// Match args against hosts and open connections
+		// for i := range args {
+		// }
 
+		// apply layout
 	},
 }
 
