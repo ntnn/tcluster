@@ -14,8 +14,8 @@ type Tmux struct {
 	envvar string
 }
 
-// Function ParseEnv returns a struct containing information for
-// a specific tmux session.
+// ParseEnv returns a struct containing information for a specific tmux
+// session.
 func ParseEnv() (*Tmux, error) {
 	env := os.Getenv("TMUX")
 
