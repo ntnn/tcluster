@@ -22,7 +22,7 @@ var sshCmd = &cobra.Command{
 	Short: "tcluster ssh opens connections to other nodes",
 	Run: func(cmd *cobra.Command, args []string) {
 		// Grab title and create new window
-		title := viper.Get("Title")
+		title := viper.Get("Title").(string)
 		tmux.NewWindow(title)
 
 		// Match args against hosts and open connections
